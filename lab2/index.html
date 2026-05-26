@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolunteerHub — Лабораторна робота №2</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container header-content">
+      <div>
+        <p class="eyebrow">Платформа волонтерських ініціатив</p>
+        <h1 id="main-title">VolunteerHub</h1>
+        <p class="hero-text">Знаходьте актуальні волонтерські проєкти, приєднуйтесь до команд і відстежуйте власну участь.</p>
+      </div>
+      <button id="themeButton" class="secondary-button" type="button">Змінити фон</button>
+    </div>
+
+    <nav class="main-nav" aria-label="Головна навігація">
+      <ul>
+        <li><a class="nav-link" data-description="Перелік активних проєктів, до яких можна приєднатися" href="#available">Доступні ініціативи</a></li>
+        <li><a class="nav-link" data-description="Ваші обрані волонтерські ініціативи" href="#mine">Мої ініціативи</a></li>
+        <li><a class="nav-link" data-description="Місія та напрями діяльності організації" href="#about">Про нас</a></li>
+        <li><a class="nav-link" data-description="Форма для пропозиції нової ініціативи" href="#idea">Запропонувати</a></li>
+      </ul>
+    </nav>
+    <p id="navHint" class="nav-hint">Наведіть курсор на пункт меню, щоб побачити його опис.</p>
+  </header>
+
+  <main>
+    <section class="intro-section container">
+      <div class="intro-card">
+        <h2>Волонтерство поруч з вами</h2>
+        <p>Ця сторінка демонструє використання JavaScript для роботи з DOM, подіями, циклами та умовами. Список ініціатив формується динамічно з масиву даних.</p>
+        <button id="toggleInfoButton" class="primary-button" type="button">Показати деталі платформи</button>
+        <div id="extraInfo" class="hidden extra-info">
+          <p>VolunteerHub допомагає координувати людей, які хочуть підтримувати громаду: допомагати літнім людям, проводити екологічні акції, збирати речі для нужденних і підтримувати притулки.</p>
+        </div>
+      </div>
+      <img class="hero-image" src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=900&q=80" alt="Команда волонтерів працює разом" />
+    </section>
+
+    <section id="available" class="container section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Актуальні можливості</p>
+        <h2>Доступні ініціативи</h2>
+        <p>Відображаються лише ініціативи, які ще не завершилися. Для цього у JavaScript використано цикл <strong>while</strong> та умовну перевірку дати.</p>
+      </div>
+      <div id="initiativeList" class="initiative-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="mine" class="container section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Особистий розділ</p>
+        <h2>Мої ініціативи</h2>
+      </div>
+      <div id="myInitiatives" class="my-list empty-state">Ви ще не приєдналися до жодної ініціативи.</div>
+    </section>
+
+    <section id="about" class="container section-block about-grid">
+      <article class="about-card">
+        <h2>Про нас</h2>
+        <p>Ми об’єднуємо волонтерів, громадські організації та місцеві ініціативи, щоб допомога була швидкою, прозорою та зручною для кожного учасника.</p>
+        <button id="missionButton" class="secondary-button" type="button">Оновити місію</button>
+        <p id="missionText" class="mission-text">Наша місія — розвивати культуру взаємодопомоги та підтримувати корисні соціальні проєкти.</p>
+      </article>
+      <article class="about-card">
+        <h3>Напрями діяльності</h3>
+        <ul id="activityList">
+          <li>Допомога людям похилого віку</li>
+          <li>Екологічні акції</li>
+          <li>Підтримка притулків для тварин</li>
+          <li>Благодійні збори</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="idea" class="container section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Форма</p>
+        <h2>Запропонувати ініціативу</h2>
+        <p>Після перевірки полів дані динамічно додаються на сторінку без перезавантаження.</p>
+      </div>
+      <form id="ideaForm" class="idea-form">
+        <label>
+          Ваше ім’я
+          <input id="userName" type="text" placeholder="Наприклад, Данііл" />
+        </label>
+        <label>
+          Email
+          <input id="userEmail" type="email" placeholder="name@example.com" />
+        </label>
+        <label>
+          Опис ініціативи
+          <textarea id="ideaText" rows="4" placeholder="Коротко опишіть вашу ідею"></textarea>
+        </label>
+        <button class="primary-button" type="submit">Надіслати пропозицію</button>
+        <p id="formMessage" class="form-message" aria-live="polite"></p>
+      </form>
+      <div id="ideaList" class="idea-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>© 2026 VolunteerHub</p>
+      <p>Адреса: м. Київ, вул. Добровольців, 12</p>
+      <p>Email: info@volunteerhub.ua</p>
+      <p>Телефон: +380 67 123 45 67</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
