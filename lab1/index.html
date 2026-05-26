@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolunteerHub — волонтерські ініціативи</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav class="navbar" aria-label="Головна навігація">
+      <a class="logo" href="#top">VolunteerHub</a>
+      <ul class="nav-links">
+        <li><a href="#initiatives">Доступні ініціативи</a></li>
+        <li><a href="#my-initiatives">Мої ініціативи</a></li>
+        <li><a href="#about">Про нас</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Платформа добрих справ</p>
+        <h1>Знаходьте волонтерські проєкти та долучайтесь до змін у своєму місті</h1>
+        <p>
+          VolunteerHub допомагає швидко знайти ініціативу за інтересами,
+          побачити дату, місце проведення та кількість волонтерів, яких ще потрібно залучити.
+        </p>
+        <a class="primary-button" href="#initiatives">Переглянути ініціативи</a>
+      </div>
+      <img
+        class="hero-image"
+        src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1000&q=80"
+        alt="Волонтери разом працюють над громадським проєктом"
+      />
+    </section>
+  </header>
+
+  <main>
+    <section class="section" id="initiatives">
+      <div class="section-heading">
+        <p class="eyebrow">Обирай і долучайся</p>
+        <h2>Доступні ініціативи</h2>
+        <p>
+          Картки нижче створені за допомогою CSS Grid. У кожній картці є назва,
+          дата, місце, потрібна кількість волонтерів і короткий опис проєкту.
+        </p>
+      </div>
+
+      <div class="initiatives-grid">
+        <article class="initiative-card">
+          <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=900&q=80" alt="Прибирання парку волонтерами" />
+          <div class="card-content">
+            <span class="badge">Екологія</span>
+            <h3>Чистий парк для громади</h3>
+            <p class="meta">📅 12 квітня 2026 · 📍 Центральний парк</p>
+            <p>Командне прибирання зелених зон, сортування сміття та висадження молодих дерев.</p>
+            <p class="volunteers">Потрібно волонтерів: <strong>24</strong></p>
+          </div>
+        </article>
+
+        <article class="initiative-card">
+          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=900&q=80" alt="Допомога дітям у навчанні" />
+          <div class="card-content">
+            <span class="badge">Освіта</span>
+            <h3>Менторство для школярів</h3>
+            <p class="meta">📅 18 квітня 2026 · 📍 Молодіжний центр</p>
+            <p>Проведення занять з англійської, математики та цифрової грамотності для підлітків.</p>
+            <p class="volunteers">Потрібно волонтерів: <strong>12</strong></p>
+          </div>
+        </article>
+
+        <article class="initiative-card">
+          <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=900&q=80" alt="Волонтери збирають гуманітарні набори" />
+          <div class="card-content">
+            <span class="badge">Допомога</span>
+            <h3>Гуманітарні набори</h3>
+            <p class="meta">📅 21 квітня 2026 · 📍 Склад підтримки</p>
+            <p>Фасування продуктових і гігієнічних наборів для людей, які потребують термінової підтримки.</p>
+            <p class="volunteers">Потрібно волонтерів: <strong>30</strong></p>
+          </div>
+        </article>
+
+        <article class="initiative-card">
+          <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=900&q=80" alt="Команда волонтерів обговорює проєкт" />
+          <div class="card-content">
+            <span class="badge">Спільнота</span>
+            <h3>Майстерня добросусідства</h3>
+            <p class="meta">📅 25 квітня 2026 · 📍 Бібліотека громади</p>
+            <p>Організація зустрічі мешканців, збір ідей для покращення району та планування спільних дій.</p>
+            <p class="volunteers">Потрібно волонтерів: <strong>8</strong></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section accent-section" id="my-initiatives">
+      <div class="section-heading">
+        <p class="eyebrow">Особистий кабінет</p>
+        <h2>Мої ініціативи</h2>
+        <p>Список заходів, до яких користувач уже приєднався.</p>
+      </div>
+
+      <div class="joined-list">
+        <article class="joined-item">
+          <h3>Чистий парк для громади</h3>
+          <p>Статус: підтверджено · Роль: координатор групи сортування</p>
+        </article>
+        <article class="joined-item">
+          <h3>Гуманітарні набори</h3>
+          <p>Статус: очікує підтвердження · Роль: волонтер пакування</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <article class="about-text">
+        <p class="eyebrow">Наша місія</p>
+        <h2>Про нас</h2>
+        <p>
+          VolunteerHub — це громадська організація, яка об’єднує людей, бізнес і локальні ініціативи
+          для швидкого вирішення соціальних, освітніх та екологічних проблем.
+        </p>
+        <p>
+          Ми віримо, що навіть кілька годин волонтерської роботи можуть змінити район,
+          підтримати людину в складній ситуації або запустити корисну традицію для всієї громади.
+        </p>
+        <ul class="mission-list">
+          <li>Підтримувати прозору комунікацію між організаторами та волонтерами.</li>
+          <li>Допомагати ініціативам швидше знаходити потрібну кількість учасників.</li>
+          <li>Розвивати культуру взаємодопомоги у містах і громадах.</li>
+        </ul>
+      </article>
+
+      <aside class="contact-card" aria-label="Контактна інформація">
+        <h3>Зв’язатися з нами</h3>
+        <p><strong>Адреса:</strong> м. Київ, вул. Добрих Справ, 9</p>
+        <p><strong>Телефон:</strong> +380 44 123 45 67</p>
+        <p><strong>Email:</strong> hello@volunteerhub.ua</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 VolunteerHub. Усі права захищено.</p>
+    <p>Контакти: hello@volunteerhub.ua · +380 44 123 45 67</p>
+  </footer>
+</body>
+</html>
