@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolunteerHub — Лабораторна робота №3</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useEffect, useMemo, useState } = React;
+
+    const initialInitiatives = [
+      {
+        id: 1,
+        title: 'Еко-день у міському парку',
+        date: '2026-06-14',
+        place: 'Київ',
+        type: 'Екологія',
+        volunteersNeeded: 18,
+        description: 'Прибирання території парку, сортування сміття та висадка молодих дерев.',
+      },
+      {
+        id: 2,
+        title: 'Допомога притулку для тварин',
+        date: '2026-06-22',
+        place: 'Львів',
+        type: 'Допомога тваринам',
+        volunteersNeeded: 10,
+        description: 'Допомога з вигулом собак, прибиранням вольєрів і збором корму.',
+      },
+      {
+        id: 3,
+        title: 'Підтримка літніх людей',
+        date: '2026-07-03',
+        place: 'Одеса',
+        type: 'Соціальна підтримка',
+        volunteersNeeded: 12,
+        description: 'Доставка продуктів, спілкування та допомога людям похилого віку.',
+      },
+      {
+        id: 4,
+        title: 'Збір речей для родин ВПО',
+        date: '2026-07-18',
+        place: 'Дніпро',
+        type: 'Соціальна підтримка',
+        volunteersNeeded: 15,
+        description: 'Сортування одягу, пакування наборів і передача речей родинам.',
+      },
+      {
+        id: 5,
+        title: 'Відновлення шкільного подвір’я',
+        date: '2026-08-01',
+        place: 'Харків',
+        type: 'Освіта',
+        volunteersNeeded: 8,
+        description: 'Фарбування лавок, облаштування клумб і підготовка подвір’я до навчального року.',
+      },
+    ];
+
+    function useHashRoute() {
+      const getRoute = () => window.location.hash.replace('#', '') || '/initiatives';
+      const [route, setRoute] = useState(getRoute());
+
+      useEffect(() => {
+        const onHashChange = () => setRoute(getRoute());
+        window.addEventListener('hashchange', onHashChange);
+        return () => window.removeEventListener('hashchange', onHashChange);
+      }, []);
+
+      const navigate = (path) => {
+        window.location.hash = path;
+        setRoute(path);
+      };
+
+      return { route, navigate };
+    }
+
+    function Header({ route, navigate, joinedCount }) {
+      const links = [
+        { path: '/initiatives', label: 'Доступні ініціативи' },
+        { path: '/my', label: `Мої ініціативи (${joinedCount})` },
+        { path: '/about', label: 'Про нас' },
+      ];
+
+      return (
+        <header className="site-header">
+          <div className="hero">
+            <p className="eyebrow">React SPA • Лабораторна робота №3</p>
+            <h1>VolunteerHub</h1>
+            <p>Платформа для пошуку, фільтрації та реєстрації на волонтерські ініціативи.</p>
+          </div>
+          <nav className="nav" aria-label="Головна навігація">
+            {links.map((link) => (
+              <button
+                key={link.path}
+                className={route === link.path ? 'nav-link active' : 'nav-link'}
+                onClick={() => navigate(link.path)}
+              >
+                {link.label}
+              </button>
+            ))}
+          </nav>
+        </header>
+      );
+    }
+
+    function FilterPanel({ filters, setFilters }) {
+      return (
+        <section className="filter-panel" aria-label="Фільтри ініціатив">
+          <label>
+            Сортування
+            <select
+              value={filters.sortBy}
+              onChange={(event) => setFilters({ ...filters, sortBy: event.target.value })}
+            >
+              <option value="date">За датою</option>
+              <option value="place">За місцем</option>
+              <option value="type">За типом активності</option>
+            </select>
+          </label>
+
+          <label>
+            Місто
+            <select
+              value={filters.place}
+              onChange={(event) => setFilters({ ...filters, place: event.target.value })}
+            >
+              <option value="all">Усі міста</option>
+              <option value="Київ">Київ</option>
+              <option value="Львів">Львів</option>
+              <option value="Одеса">Одеса</option>
+              <option value="Дніпро">Дніпро</option>
+              <option value="Харків">Харків</option>
+            </select>
+          </label>
+
+          <label>
+            Тип активності
+            <select
+              value={filters.type}
+              onChange={(event) => setFilters({ ...filters, type: event.target.value })}
+            >
+              <option value="all">Усі типи</option>
+              <option value="Екологія">Екологія</option>
+              <option value="Допомога тваринам">Допомога тваринам</option>
+              <option value="Соціальна підтримка">Соціальна підтримка</option>
+              <option value="Освіта">Освіта</option>
+            </select>
+          </label>
+        </section>
+      );
+    }
+
+    function InitiativeCard({ initiative, joined, onJoin, openRegistration }) {
+      return (
+        <article className={joined ? 'card joined-card' : 'card'}>
+          <span className="badge">{initiative.type}</span>
+          <h3>{initiative.title}</h3>
+          <p>{initiative.description}</p>
+          <ul className="meta-list">
+            <li><strong>Дата:</strong> {initiative.date}</li>
+            <li><strong>Місце:</strong> {initiative.place}</li>
+            <li><strong>Потрібно волонтерів:</strong> {initiative.volunteersNeeded}</li>
+          </ul>
+          <div className="button-row">
+            <button className="primary-btn" onClick={() => onJoin(initiative.id)} disabled={joined}>
+              {joined ? 'Ви приєдналися' : 'Приєднатися'}
+            </button>
+            <button className="secondary-btn" onClick={() => openRegistration(initiative)}>
+              Реєстраційна форма
+            </button>
+          </div>
+        </article>
+      );
+    }
+
+    function RegistrationForm({ selectedInitiative, onSubmit }) {
+      const [form, setForm] = useState({ name: '', email: '', comment: '' });
+      const [message, setMessage] = useState('');
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        if (!selectedInitiative) {
+          setMessage('Спочатку оберіть ініціативу через кнопку «Реєстраційна форма».');
+          return;
+        }
+        if (!form.name.trim() || !form.email.trim()) {
+          setMessage('Заповніть ім’я та електронну пошту.');
+          return;
+        }
+        onSubmit(selectedInitiative.id);
+        setMessage(`Заявку на «${selectedInitiative.title}» успішно створено.`);
+        setForm({ name: '', email: '', comment: '' });
+      };
+
+      return (
+        <section className="form-section">
+          <h2>Форма реєстрації на ініціативу</h2>
+          <p className="muted">
+            Обрана ініціатива: <strong>{selectedInitiative ? selectedInitiative.title : 'не обрано'}</strong>
+          </p>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Ваше ім’я"
+              value={form.name}
+              onChange={(event) => setForm({ ...form, name: event.target.value })}
+            />
+            <input
+              type="email"
+              placeholder="Електронна пошта"
+              value={form.email}
+              onChange={(event) => setForm({ ...form, email: event.target.value })}
+            />
+            <textarea
+              placeholder="Коментар або досвід волонтерства"
+              value={form.comment}
+              onChange={(event) => setForm({ ...form, comment: event.target.value })}
+            />
+            <button className="primary-btn" type="submit">Надіслати заявку</button>
+          </form>
+          {message && <p className="form-message">{message}</p>}
+        </section>
+      );
+    }
+
+    function AvailableInitiatives({ initiatives, joinedIds, onJoin, openRegistration }) {
+      const [filters, setFilters] = useState({ sortBy: 'date', place: 'all', type: 'all' });
+
+      const visibleInitiatives = useMemo(() => {
+        let result = initiatives.filter((item) => {
+          const placeMatch = filters.place === 'all' || item.place === filters.place;
+          const typeMatch = filters.type === 'all' || item.type === filters.type;
+          return placeMatch && typeMatch;
+        });
+
+        result = [...result].sort((a, b) => {
+          if (filters.sortBy === 'date') return new Date(a.date) - new Date(b.date);
+          if (filters.sortBy === 'place') return a.place.localeCompare(b.place, 'uk');
+          return a.type.localeCompare(b.type, 'uk');
+        });
+
+        return result;
+      }, [initiatives, filters]);
+
+      return (
+        <main className="page">
+          <section className="section-heading">
+            <h2>Доступні ініціативи</h2>
+            <p>Використайте фільтри, щоб знайти проєкт за датою, містом або типом активності.</p>
+          </section>
+          <FilterPanel filters={filters} setFilters={setFilters} />
+          <section className="grid">
+            {visibleInitiatives.map((initiative) => (
+              <InitiativeCard
+                key={initiative.id}
+                initiative={initiative}
+                joined={joinedIds.includes(initiative.id)}
+                onJoin={onJoin}
+                openRegistration={openRegistration}
+              />
+            ))}
+          </section>
+        </main>
+      );
+    }
+
+    function JoinedInitiativesList({ joinedInitiatives }) {
+      return (
+        <main className="page">
+          <section className="section-heading">
+            <h2>Мої ініціативи</h2>
+            <p>Тут відображаються волонтерські проєкти, до яких користувач уже приєднався.</p>
+          </section>
+          {joinedInitiatives.length === 0 ? (
+            <div className="empty-state">Ви ще не приєдналися до жодної ініціативи.</div>
+          ) : (
+            <section className="grid">
+              {joinedInitiatives.map((item) => (
+                <article className="card joined-card" key={item.id}>
+                  <span className="badge">{item.type}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <ul className="meta-list">
+                    <li><strong>Дата:</strong> {item.date}</li>
+                    <li><strong>Місце:</strong> {item.place}</li>
+                  </ul>
+                </article>
+              ))}
+            </section>
+          )}
+        </main>
+      );
+    }
+
+    function About() {
+      return (
+        <main className="page about-page">
+          <section className="card wide-card">
+            <h2>Про організацію</h2>
+            <p>
+              VolunteerHub об’єднує людей, які хочуть допомагати містам, громадам, тваринам та тим,
+              хто потребує соціальної підтримки. Наша місія — зробити волонтерство простим,
+              зрозумілим і доступним для кожного.
+            </p>
+            <h3>Основні напрями діяльності</h3>
+            <ul className="nice-list">
+              <li>екологічні акції та прибирання територій;</li>
+              <li>допомога притулкам для тварин;</li>
+              <li>соціальна підтримка літніх людей і родин ВПО;</li>
+              <li>освітні та громадські ініціативи.</li>
+            </ul>
+          </section>
+        </main>
+      );
+    }
+
+    function App() {
+      const { route, navigate } = useHashRoute();
+      const [initiatives, setInitiatives] = useState(initialInitiatives);
+      const [joinedIds, setJoinedIds] = useState([]);
+      const [selectedInitiative, setSelectedInitiative] = useState(null);
+
+      const joinInitiative = (initiativeId) => {
+        if (joinedIds.includes(initiativeId)) return;
+        setJoinedIds([...joinedIds, initiativeId]);
+        setInitiatives((current) => current.map((item) => {
+          if (item.id !== initiativeId) return item;
+          return { ...item, volunteersNeeded: Math.max(item.volunteersNeeded - 1, 0) };
+        }));
+      };
+
+      const openRegistration = (initiative) => {
+        setSelectedInitiative(initiative);
+        navigate('/initiatives');
+        setTimeout(() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' }), 50);
+      };
+
+      const joinedInitiatives = initiatives.filter((item) => joinedIds.includes(item.id));
+
+      return (
+        <>
+          <Header route={route} navigate={navigate} joinedCount={joinedIds.length} />
+          {route === '/initiatives' && (
+            <>
+              <AvailableInitiatives
+                initiatives={initiatives}
+                joinedIds={joinedIds}
+                onJoin={joinInitiative}
+                openRegistration={openRegistration}
+              />
+              <div id="registration-form" className="page compact-page">
+                <RegistrationForm selectedInitiative={selectedInitiative} onSubmit={joinInitiative} />
+              </div>
+            </>
+          )}
+          {route === '/my' && <JoinedInitiativesList joinedInitiatives={joinedInitiatives} />}
+          {route === '/about' && <About />}
+          <footer className="footer">
+            <p>© 2026 VolunteerHub • volunteerhub@example.com • +380 67 123 45 67</p>
+          </footer>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
