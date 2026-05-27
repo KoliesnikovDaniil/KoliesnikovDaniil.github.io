@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolunteerHub | Лабораторна робота №4</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <div>
+        <p class="eyebrow">Лабораторна робота №4</p>
+        <h1>VolunteerHub</h1>
+        <p>Платформа для організації волонтерських ініціатив з автентифікацією та базою даних</p>
+      </div>
+      <nav class="nav" aria-label="Основна навігація">
+        <a href="#initiatives">Ініціативи</a>
+        <a href="#auth">Вхід / Реєстрація</a>
+        <a href="#ratings">Оцінки</a>
+        <a href="#database">База даних</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <h2>Долучайтесь до добрих справ</h2>
+          <p>
+            Цей вебзастосунок демонструє реєстрацію та вхід користувачів,
+            перевірку стану автентифікації, оцінювання ініціатив тільки для
+            авторизованих користувачів і читання/запис даних у Firebase Firestore.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#auth">Увійти</a>
+            <a class="button secondary" href="#initiatives">Переглянути ініціативи</a>
+          </div>
+        </div>
+        <div class="status-card">
+          <h3>Статус користувача</h3>
+          <p id="authStatus" class="status-text">Користувач не увійшов</p>
+          <p id="currentUser" class="muted">Оцінювання доступне після входу.</p>
+          <button id="logoutBtn" class="button danger hidden" type="button">Вийти</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="auth" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Firebase Authentication</p>
+          <h2>Реєстрація та вхід</h2>
+          <p>Форми використовують email і пароль. У демонстраційному режимі дані імітуються локально, а після додавання власного firebaseConfig можна підключити реальний Firebase.</p>
+        </div>
+        <div class="auth-grid">
+          <form id="registerForm" class="form-card">
+            <h3>Реєстрація</h3>
+            <label for="registerEmail">Email</label>
+            <input id="registerEmail" type="email" placeholder="volunteer@example.com" required />
+            <label for="registerPassword">Пароль</label>
+            <input id="registerPassword" type="password" placeholder="Мінімум 6 символів" required minlength="6" />
+            <button class="button primary" type="submit">Зареєструватися</button>
+            <p id="registerMessage" class="message"></p>
+          </form>
+
+          <form id="loginForm" class="form-card">
+            <h3>Вхід</h3>
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" placeholder="volunteer@example.com" required />
+            <label for="loginPassword">Пароль</label>
+            <input id="loginPassword" type="password" placeholder="Ваш пароль" required />
+            <button class="button primary" type="submit">Увійти</button>
+            <p id="loginMessage" class="message"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="initiatives" class="section alt-section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Cloud Firestore</p>
+          <h2>Ініціативи з бази даних</h2>
+          <p>Картки ініціатив завантажуються з масиву-імітації Firestore. У реальному проєкті ці дані читаються з колекції <code>initiatives</code>.</p>
+        </div>
+        <div id="initiativesGrid" class="initiatives-grid"></div>
+      </div>
+    </section>
+
+    <section id="ratings" class="section">
+      <div class="container ratings-layout">
+        <div>
+          <div class="section-heading left">
+            <p class="eyebrow">Оцінювання</p>
+            <h2>Оцінити ініціативу</h2>
+            <p>Оцінки від 1 до 5 зірок можуть залишати тільки автентифіковані користувачі.</p>
+          </div>
+          <form id="ratingForm" class="form-card wide">
+            <label for="initiativeSelect">Ініціатива</label>
+            <select id="initiativeSelect" required></select>
+
+            <label for="ratingSelect">Оцінка</label>
+            <select id="ratingSelect" required>
+              <option value="5">5 зірок</option>
+              <option value="4">4 зірки</option>
+              <option value="3">3 зірки</option>
+              <option value="2">2 зірки</option>
+              <option value="1">1 зірка</option>
+            </select>
+
+            <label for="ratingComment">Коментар</label>
+            <textarea id="ratingComment" rows="4" placeholder="Опишіть ваші враження"></textarea>
+
+            <button class="button primary" type="submit">Зберегти оцінку</button>
+            <p id="ratingMessage" class="message"></p>
+          </form>
+        </div>
+        <aside class="ratings-list-card">
+          <h3>Збережені оцінки</h3>
+          <div id="ratingsList" class="ratings-list"></div>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>© 2026 VolunteerHub. Лабораторна робота №4.</p>
+      <p>Email: info@volunteerhub.ua | Телефон: +380 67 000 00 00</p>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
