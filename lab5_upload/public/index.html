@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolunteerHub API | Лабораторна №5</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <a href="#initiatives">Ініціативи</a>
+      <a href="#auth">Авторизація</a>
+      <a href="#ratings">Оцінювання</a>
+      <a href="#api">API</a>
+    </nav>
+    <div class="hero-content">
+      <p class="eyebrow">Лабораторна робота №5 · Варіант 9</p>
+      <h1>VolunteerHub Backend</h1>
+      <p>
+        Серверна частина для платформи волонтерських ініціатив з Node.js, Express,
+        REST API, JWT-авторизацією та підключенням до Firebase Firestore.
+      </p>
+      <button id="checkServerBtn" class="primary-btn">Перевірити сервер</button>
+      <p id="serverMessage" class="status-text"></p>
+    </div>
+  </header>
+
+  <main>
+    <section id="initiatives" class="section">
+      <div class="section-title">
+        <p class="eyebrow">Дані з API</p>
+        <h2>Доступні волонтерські ініціативи</h2>
+      </div>
+      <div id="initiativesGrid" class="grid"></div>
+    </section>
+
+    <section id="auth" class="section two-columns">
+      <div class="card">
+        <h2>Реєстрація</h2>
+        <form id="registerForm" class="form">
+          <label>
+            Email
+            <input type="email" id="registerEmail" placeholder="user@example.com" required />
+          </label>
+          <label>
+            Пароль
+            <input type="password" id="registerPassword" placeholder="мінімум 6 символів" required />
+          </label>
+          <button type="submit" class="primary-btn">Зареєструватися</button>
+        </form>
+        <p id="registerMessage" class="status-text"></p>
+      </div>
+
+      <div class="card">
+        <h2>Вхід</h2>
+        <form id="loginForm" class="form">
+          <label>
+            Email
+            <input type="email" id="loginEmail" placeholder="user@example.com" required />
+          </label>
+          <label>
+            Пароль
+            <input type="password" id="loginPassword" required />
+          </label>
+          <button type="submit" class="primary-btn">Увійти</button>
+        </form>
+        <button id="logoutBtn" class="secondary-btn hidden">Вийти</button>
+        <p id="loginMessage" class="status-text"></p>
+        <p id="profileBox" class="muted">Користувач не авторизований.</p>
+      </div>
+    </section>
+
+    <section id="ratings" class="section two-columns">
+      <div class="card">
+        <h2>Додати оцінку ініціативи</h2>
+        <p class="muted">POST-запит захищений JWT-токеном. Оцінку можна додати тільки після входу.</p>
+        <form id="ratingForm" class="form">
+          <label>
+            Ініціатива
+            <select id="ratingInitiative"></select>
+          </label>
+          <label>
+            Оцінка
+            <select id="ratingValue">
+              <option value="5">5 — відмінно</option>
+              <option value="4">4 — добре</option>
+              <option value="3">3 — нормально</option>
+              <option value="2">2 — слабко</option>
+              <option value="1">1 — погано</option>
+            </select>
+          </label>
+          <label>
+            Коментар
+            <textarea id="ratingComment" rows="4" placeholder="Короткий коментар"></textarea>
+          </label>
+          <button type="submit" class="primary-btn">Надіслати оцінку</button>
+        </form>
+        <p id="ratingMessage" class="status-text"></p>
+      </div>
+
+      <div class="card">
+        <h2>Середня оцінка</h2>
+        <label class="form-label">
+          Оберіть ініціативу
+          <select id="averageInitiative"></select>
+        </label>
+        <button id="loadAverageBtn" class="secondary-btn">Отримати оцінки</button>
+        <div id="averageBox" class="average-box">
+          <p class="muted">Тут зʼявиться середня оцінка, округлена до двох знаків.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="api" class="section">
+      <div class="section-title">
+        <p class="eyebrow">REST API</p>
+        <h2>Реалізовані маршрути</h2>
+      </div>
+      <div class="routes">
+        <div><strong>GET</strong> <code>/api/message</code> — перевірка сервера</div>
+        <div><strong>GET</strong> <code>/api/initiatives</code> — список ініціатив</div>
+        <div><strong>POST</strong> <code>/register</code> — реєстрація користувача</div>
+        <div><strong>POST</strong> <code>/login</code> — вхід і отримання JWT</div>
+        <div><strong>GET</strong> <code>/profile</code> — захищений профіль користувача</div>
+        <div><strong>GET</strong> <code>/api/initiatives/:id/ratings</code> — оцінки та середнє значення</div>
+        <div><strong>POST</strong> <code>/api/initiatives/:id/ratings</code> — додавання оцінки</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 VolunteerHub. Лабораторна робота №5.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
